@@ -34,6 +34,9 @@ namespace Game
             gameTime.Start();
             MyCanvas.Focus();
 
+            ImageBrush bg = new ImageBrush();
+            bg.ImageSource = new BitmapImage(new Uri("pack://application:,,,/images/space.png"));
+            MyCanvas.Background = bg;
             ImageBrush playerImage = new ImageBrush();
             playerImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/images/spaceship.png"));
             player.Fill = playerImage;
