@@ -22,12 +22,21 @@ namespace Game
     /// </summary>
     public partial class MainWindow : Window
     {
-        bool moveLeft, moveRight, moveUp, moveDown, alienMove, ashoot;
+        bool moveLeft, moveRight, moveUp, moveDown, alienMove;
+        bool pupPresent = false;
+        bool bombexist = false;
         int playerSpeed = 5;
         int alienSpeed = 7;
         int ufoLife = 100;
         int playerLife = 5;
         int alienshoottick = 0;
+        int alienshootspeed = 20;
+        int shootspeed = 20;
+        int poweruptick = 0;
+        
+        
+        Random xrand = new Random();
+        Random yrand = new Random();
 
         SoundPlayer playeraudio = new SoundPlayer(Game.Properties.Resources.playershoot);
         SoundPlayer alienaudio = new SoundPlayer(Game.Properties.Resources.ufoshoot);
@@ -41,12 +50,10 @@ namespace Game
 
             gameTime.Interval = TimeSpan.FromMilliseconds(20);
             gameTime.Tick += gameEngine;
-            gameTime.Start();            
-            backgroundplayer.Open(new Uri("pack://application:,,,/Resources/background.mp3"));
-            backgroundplayer.Play();
+            gameTime.Start();                        
             MyCanvas.Focus();
-            backgroundplayer.Open(new Uri(@"C:\Users\Administrator\Source\Repos\Game\Game\Resources\background.mp3"));
-            backgroundplayer.Play();
+            //backgroundplayer.Open(new Uri(@"C:\Users\Grey Cell\source\repos\Game\Game\Resources\background.mp3"));
+            //backgroundplayer.Play();
             ImageBrush bg = new ImageBrush();
             bg.ImageSource = new BitmapImage(new Uri("pack://application:,,,/images/space.png"));
             MyCanvas.Background = bg;
@@ -93,6 +100,24 @@ namespace Game
                 MyCanvas.Children.Add(bullet);
                 playeraudio.Play();
             }
+         if(e.Key == Key.B)
+            {
+                Rectangle bomb = new Rectangle
+                {
+                    Tag = "bomb",
+                    Height = 30,
+                    Width = 30,
+                    Fill = Brushes.Red,
+                    Stroke = Brushes.Black
+                };
+                if(bombexist == true)
+                {
+                    Canvas.SetTop(bomb, Canvas.GetTop(player) - bomb.Height);
+                    Canvas.SetLeft(bomb, Canvas.GetLeft(player) + player.Width / 5);
+                    MyCanvas.Children.Add(bomb);
+                    bombexist = false;
+                }
+            }
         }
 
         private void onKeyUp(object sender, KeyEventArgs e)
@@ -116,13 +141,10 @@ namespace Game
         }
         private void gameEngine(object sender, EventArgs e)
         {
-            
-            Task alienshootaudio = new Task(() =>
-            alienaudio.Play()
-            );
+            poweruptick++;
             alienshoottick++;
             ufolifelabel.Content = "Ufo Life: " + ufoLife;
-            playerlifelabel.Content = "Player Life: " + playerLife;
+            playerlifelabel.Content = "Player Life: " + playerLife;            
 
             Rect ralien = new Rect(Canvas.GetLeft(alien), Canvas.GetTop(alien), alien.Width, alien.Height);
             Rect playerhitbox = new Rect(Canvas.GetLeft(player), Canvas.GetTop(player), player.Width, player.Height);
@@ -145,9 +167,10 @@ namespace Game
             }
             foreach(var x in MyCanvas.Children.OfType<Rectangle>())
             {
+                
                 if(x is Rectangle && (string)x.Tag == "bullet")
                 {
-                    Canvas.SetTop(x, Canvas.GetTop(x) - 20);
+                    Canvas.SetTop(x, Canvas.GetTop(x) - shootspeed);
                     if(Canvas.GetTop(x) < 10)
                     {
                         itemstoremove.Add(x);
@@ -156,11 +179,7 @@ namespace Game
                     if(rbullet.IntersectsWith(ralien))
                     {
                         ufoLife -= 1;
-                        itemstoremove.Add(x);
-                        if(ufoLife == 0)
-                        {
-                            MessageBox.Show("You WIN!");
-                        }
+                        itemstoremove.Add(x);                        
 
                     }
                 }
@@ -192,7 +211,7 @@ namespace Game
             };
             Canvas.SetTop(alienshoot, Canvas.GetTop(alien) + alienshoot.Height*2);
             Canvas.SetLeft(alienshoot, Canvas.GetLeft(alien) + alien.Width / 2);
-            if (alienshoottick == 20)
+            if (alienshoottick == alienshootspeed)
             {
                 MyCanvas.Children.Add(alienshoot);
                 alienaudio.Play();
@@ -224,6 +243,74 @@ namespace Game
             {
                 MessageBox.Show("You WIN! You saved the Planet!");
                 Environment.Exit(0);
+            }
+            if(ufoLife < 75)
+            {
+                alienshootspeed = 15;
+            }
+            if(ufoLife < 25)
+            {
+                alienshootspeed = 10;
+            }
+            Rectangle powerUp = new Rectangle
+            {
+                Tag = "powerup",                
+                Height = 25,
+                Width = 25,
+                Fill = Brushes.Blue,
+                Stroke = Brushes.Black
+
+            };
+            if(pupPresent == false)
+            {
+                int xpup = xrand.Next(10, 440);
+                int ypup = yrand.Next(100, 550);
+                Canvas.SetLeft(powerUp, xpup);
+                Canvas.SetTop(powerUp, ypup);
+                MyCanvas.Children.Add(powerUp);
+                pupPresent = true;
+                
+            }
+            if (poweruptick == 300)
+            {
+                pupPresent = false;
+                poweruptick = 0;
+            }
+
+            foreach(var x in MyCanvas.Children.OfType<Rectangle>())
+            {
+                if (x is Rectangle && (string)x.Tag == "powerup")
+                {
+                    Canvas.SetTop(x, Canvas.GetTop(x) + 3);
+                    if(Canvas.GetTop(x) > 580)
+                    {
+                        itemstoremove.Add(x);
+                    }
+                    Rect poweruphitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    if(poweruphitbox.IntersectsWith(playerhitbox))
+                    {
+                        bombexist = true;
+                        itemstoremove.Add(x);
+                    }
+                }
+            }
+            foreach (var x in MyCanvas.Children.OfType<Rectangle>())
+            {
+                if (x is Rectangle && (string)x.Tag == "bomb")
+                {
+                    Canvas.SetTop(x, Canvas.GetTop(x) - 5);
+                    if (Canvas.GetTop(x) < 10)
+                    {
+                        itemstoremove.Add(x);
+                    }
+                    Rect bombhitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
+                    if (bombhitbox.IntersectsWith(ralien))
+                    {
+                        ufoLife -= 25;
+                        itemstoremove.Add(x);
+                        bombexist = false;
+                    }
+                }
             }
 
             foreach (var x in itemstoremove)
