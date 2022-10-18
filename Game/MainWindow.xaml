@@ -6,11 +6,14 @@
         xmlns:local="clr-namespace:Game"
         mc:Ignorable="d"
         Title="Game" Height="650" Width="450">
-    <Canvas Background="Black" Name="MyCanvas" KeyDown="onKeyDown" KeyUp="onKeyUp" Focusable="True">
-        
-        
-        <Rectangle Name="player" Height="50" Width="60" Fill="Yellow" Canvas.Left="195" Canvas.Top="557" />
-        <Rectangle Name="alien" Height="60" Width="120" Fill="Yellow" Canvas.Left="165" Canvas.Top="50" />
+	<Canvas Background="Black" Name="MyCanvas" KeyDown="onKeyDown" KeyUp="onKeyUp" Focusable="True">
 
-    </Canvas>
+
+		<Rectangle Name="player" Height="50" Width="60" Fill="Yellow" Canvas.Left="195" Canvas.Top="557" />
+		<Rectangle Name="alien" Height="60" Width="120" Fill="Yellow" Canvas.Left="165" Canvas.Top="50" />
+		<Label/>
+		<Label Name="ufolifelabel" Content="Ufo Life: " Height="27" Width="96" Canvas.Left="336" Canvas.Top="5" Foreground="White"/>
+		<Label x:Name="playerlifelabel" Content="Label" Canvas.Left="10" Canvas.Top="10" Height="33" Width="83" Foreground="White"/>
+
+	</Canvas>
 </Window>
