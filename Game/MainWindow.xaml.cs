@@ -21,8 +21,9 @@ namespace Game
     /// </summary>
     public partial class MainWindow : Window
     {
-        bool moveLeft, moveRight;
+        bool moveLeft, moveRight, alienMove;
         int playerSpeed = 10;
+        int alienSpeed = 10;
         public MainWindow()
         {
             DispatcherTimer gameTime = new DispatcherTimer();
@@ -79,6 +80,22 @@ namespace Game
             if (moveRight && Canvas.GetLeft(player) + 90 < Application.Current.MainWindow.Width)
             {
                 Canvas.SetLeft(player, Canvas.GetLeft(player) + playerSpeed);
+            }            
+            if(alienMove == true)
+            {
+                Canvas.SetLeft(alien, Canvas.GetLeft(alien) + alienSpeed);                
+                if(Canvas.GetLeft(alien) > 320)
+                {
+                    alienMove = false;
+                }
+            }
+            if(alienMove == false)
+            {
+                Canvas.SetLeft(alien, Canvas.GetLeft(alien) - alienSpeed);
+                if(Canvas.GetLeft(alien) < 10)
+                {
+                    alienMove = true;
+                }
             }
         }
     }
