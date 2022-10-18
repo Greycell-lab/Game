@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Media;
 
 namespace Game
 {
@@ -28,6 +29,9 @@ namespace Game
         int playerLife = 5;
         int alienshoottick = 0;
 
+        SoundPlayer playeraudio = new SoundPlayer(Game.Properties.Resources.playershoot);
+        SoundPlayer alienaudio = new SoundPlayer(Game.Properties.Resources.ufoshoot);
+        MediaPlayer backgroundplayer = new MediaPlayer();       
         List<Rectangle> itemstoremove = new List<Rectangle>();
         public MainWindow()
         {
@@ -37,9 +41,12 @@ namespace Game
 
             gameTime.Interval = TimeSpan.FromMilliseconds(20);
             gameTime.Tick += gameEngine;
-            gameTime.Start();
+            gameTime.Start();            
+            backgroundplayer.Open(new Uri("pack://application:,,,/Resources/background.mp3"));
+            backgroundplayer.Play();
             MyCanvas.Focus();
-
+            backgroundplayer.Open(new Uri(@"C:\Users\Administrator\Source\Repos\Game\Game\Resources\background.mp3"));
+            backgroundplayer.Play();
             ImageBrush bg = new ImageBrush();
             bg.ImageSource = new BitmapImage(new Uri("pack://application:,,,/images/space.png"));
             MyCanvas.Background = bg;
@@ -54,8 +61,8 @@ namespace Game
         }
 
         private void onKeyDown(object sender, KeyEventArgs e)
-        {
-         if(e.Key == Key.Left)
+        {          
+        if (e.Key == Key.Left)
             {
                 moveLeft = true;
             }
@@ -84,6 +91,7 @@ namespace Game
                 Canvas.SetTop(bullet, Canvas.GetTop(player) - bullet.Height);
                 Canvas.SetLeft(bullet, Canvas.GetLeft(player) + player.Width / 2);
                 MyCanvas.Children.Add(bullet);
+                playeraudio.Play();
             }
         }
 
@@ -108,6 +116,10 @@ namespace Game
         }
         private void gameEngine(object sender, EventArgs e)
         {
+            
+            Task alienshootaudio = new Task(() =>
+            alienaudio.Play()
+            );
             alienshoottick++;
             ufolifelabel.Content = "Ufo Life: " + ufoLife;
             playerlifelabel.Content = "Player Life: " + playerLife;
@@ -183,6 +195,7 @@ namespace Game
             if (alienshoottick == 20)
             {
                 MyCanvas.Children.Add(alienshoot);
+                alienaudio.Play();
                 alienshoottick = 0;
             }
             foreach(var x in MyCanvas.Children.OfType<Rectangle>())
