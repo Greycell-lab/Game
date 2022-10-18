@@ -23,7 +23,7 @@ namespace Game
     {
         bool moveLeft, moveRight, alienMove;
         int playerSpeed = 10;
-        int alienSpeed = 10;
+        int alienSpeed = 5;
         public MainWindow()
         {
             DispatcherTimer gameTime = new DispatcherTimer();
