@@ -109,6 +109,9 @@
 	<ItemGroup>
 		<Resource Include="images\powerup.png" />
 	</ItemGroup>
+	<ItemGroup>
+		<Resource Include="images\explosion.png" />
+	</ItemGroup>
   <ItemGroup>
     <None Include="Resources\playershoot.wav" />
     <None Include="Resources\ufoshoot.wav" />

@@ -24,7 +24,7 @@ namespace Game
     {
         bool moveLeft, moveRight, moveUp, moveDown, alienMove;
         bool pupPresent = false;
-        bool bombexist = false;
+        bool bombexist = true;
         int playerSpeed = 5;
         int alienSpeed = 7;
         int ufoLife = 100;
@@ -310,14 +310,13 @@ namespace Game
                     }
                     Rect bombhitbox = new Rect(Canvas.GetLeft(x), Canvas.GetTop(x), x.Width, x.Height);
                     if (bombhitbox.IntersectsWith(ralien))
-                    {
+                    {                                                            
                         ufoLife -= 25;
                         itemstoremove.Add(x);
                         bombexist = false;
                     }
                 }
             }
-
             foreach (var x in itemstoremove)
             {
                 MyCanvas.Children.Remove(x);
