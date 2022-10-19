@@ -103,12 +103,15 @@
   <ItemGroup>
     <Resource Include="images\space.png" />
   </ItemGroup>
+	<ItemGroup>
+		<Resource Include="images\missile.png" />
+	</ItemGroup>
+	<ItemGroup>
+		<Resource Include="images\powerup.png" />
+	</ItemGroup>
   <ItemGroup>
     <None Include="Resources\playershoot.wav" />
     <None Include="Resources\ufoshoot.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\background.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
