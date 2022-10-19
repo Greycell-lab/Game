@@ -63,6 +63,8 @@ namespace Game
             ImageBrush alienImage = new ImageBrush();
             alienImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/images/alienship.png"));
             alien.Fill = alienImage;
+            
+            
 
 
         }
@@ -102,12 +104,14 @@ namespace Game
             }
          if(e.Key == Key.B)
             {
+                ImageBrush bombImage = new ImageBrush();
+                bombImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/images/missile.png"));
                 Rectangle bomb = new Rectangle
                 {
                     Tag = "bomb",
                     Height = 30,
                     Width = 30,
-                    Fill = Brushes.Red,
+                    Fill = bombImage,
                     Stroke = Brushes.Black
                 };
                 if(bombexist == true)
@@ -257,7 +261,7 @@ namespace Game
                 Tag = "powerup",                
                 Height = 25,
                 Width = 25,
-                Fill = Brushes.Blue,
+                Fill = Brushes.Red,
                 Stroke = Brushes.Black
 
             };
