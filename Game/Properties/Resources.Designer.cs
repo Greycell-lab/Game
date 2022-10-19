@@ -10,8 +10,9 @@
 
 namespace Game.Properties {
     using System;
-    
-    
+    using System.Windows.Media.Imaging;
+
+
     /// <summary>
     ///   Eine stark typisierte Ressourcenklasse zum Suchen von lokalisierten Zeichenfolgen usw.
     /// </summary>
@@ -57,16 +58,6 @@ namespace Game.Properties {
             }
             set {
                 resourceCulture = value;
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
-        /// </summary>
-        internal static byte[] background {
-            get {
-                object obj = ResourceManager.GetObject("background", resourceCulture);
-                return ((byte[])(obj));
             }
         }
         
