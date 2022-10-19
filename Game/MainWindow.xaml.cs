@@ -105,14 +105,13 @@ namespace Game
          if(e.Key == Key.B)
             {
                 ImageBrush bombImage = new ImageBrush();
-                bombImage.ImageSource = new BitmapImage(new Uri("pack://application:,,,/images/missile.png"));
+                bombImage.ImageSource = new BitmapImage(new Uri("C:\\Users\\Administrator\\Source\\Repos\\Greycell-lab\\Game\\Game\\images\\missile.png"));
                 Rectangle bomb = new Rectangle
                 {
                     Tag = "bomb",
                     Height = 30,
                     Width = 30,
                     Fill = bombImage,
-                    Stroke = Brushes.Black
                 };
                 if(bombexist == true)
                 {
@@ -256,13 +255,15 @@ namespace Game
             {
                 alienshootspeed = 10;
             }
+            ImageBrush powerupImage = new ImageBrush();
+            powerupImage.ImageSource = new BitmapImage(new Uri(@"C:\\Users\\Administrator\\Source\\Repos\\Greycell-lab\\Game\\Game\\images\\powerup.png"));
+
             Rectangle powerUp = new Rectangle
             {
                 Tag = "powerup",                
                 Height = 25,
                 Width = 25,
-                Fill = Brushes.Red,
-                Stroke = Brushes.Black
+                Fill = powerupImage                
 
             };
             if(pupPresent == false)
